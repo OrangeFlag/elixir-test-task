@@ -6,29 +6,25 @@ defmodule UrlHistory.Server.Router do
 
   post "/visited_links" do
     conn = conn |> json_conn
-      with %{"links" => links} <- conn.body_params,
-           {:ok, _} <- UrlHistory.Repository.Redis.insert(links) do
-            send_resp(conn, 201, %{status: "ok"} |> Poison.encode!)
-      else
-        {:error, error} -> send_resp(conn, 500, %{status: error} |> Poison.encode!())
-        _ -> send_resp(conn, 500, %{status: "error"} |> Poison.encode!())
-      end
+
+    with %{"links" => links} <- conn.body_params,
+         {:ok, _} <- UrlHistory.Service.HistorySaveHandler.save_links(links) do
+      send_resp(conn, 201, response("ok"))
+    else
+      _ -> send_resp(conn, 500, response("error"))
+    end
   end
 
   get "/visited_domains" do
-    result =
-      with from <- conn.params["from"],
-           to <- conn.params["to"],
-           {:ok, domains} <- UrlHistory.Repository.Redis.get_domains(from, to) do
-        %{domains: domains, status: "ok"}
-      else
-        {:error, error} -> %{status: error}
-        _ -> %{status: "error"}
-      end
+    conn = conn |> json_conn
 
-    conn
-    |> json_conn
-    |> send_resp(200, result |> Poison.encode!())
+    with from <- conn.params["from"],
+         to <- conn.params["to"],
+         {:ok, domains} <- UrlHistory.Service.HistorySaveHandler.get_domains(from, to) do
+      send_resp(conn, 200, response("ok", domains))
+    else
+      _ -> send_resp(conn, 500, response("error"))
+    end
   end
 
   match _ do
@@ -38,5 +34,13 @@ defmodule UrlHistory.Server.Router do
   defp json_conn(conn) do
     conn
     |> put_resp_content_type("application/json")
+  end
+
+  defp response(status) do
+    %{status: status} |> Poison.encode!()
+  end
+
+  defp response(status, domains) do
+    %{status: status, domains: domains} |> Poison.encode!()
   end
 end
