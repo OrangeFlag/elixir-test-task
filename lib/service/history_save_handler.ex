@@ -1,10 +1,7 @@
 defmodule UrlHistory.Service.HistorySaveHandler do
+  def save_links(links, _) when is_nil(links), do: {:error, "links is nill"}
 
-  def save_links(links) when is_nil(links), do: {:error, "links is nill"}
-
-  def save_links(links) do
-    time = DateTime.utc_now() |> DateTime.to_unix()
-
+  def save_links(links, time) do
     links
     |> Enum.map(fn x -> x <> "///#{time}" end)
     |> Enum.flat_map(fn link -> [time, link] end)

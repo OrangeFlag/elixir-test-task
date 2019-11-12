@@ -8,7 +8,11 @@ defmodule UrlHistory.Server.Router do
     conn = conn |> json_conn
 
     with %{"links" => links} <- conn.body_params,
-         {:ok, _} <- UrlHistory.Service.HistorySaveHandler.save_links(links) do
+         {:ok, _} <-
+           UrlHistory.Service.HistorySaveHandler.save_links(
+             links,
+             DateTime.utc_now() |> DateTime.to_unix()
+           ) do
       send_resp(conn, 201, response("ok"))
     else
       _ -> send_resp(conn, 500, response("error"))
