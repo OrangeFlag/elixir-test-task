@@ -1,5 +1,4 @@
 defmodule UrlHistory.Service.HistorySaveHandler do
-  import UrlHistory.Utils.Random
 
   def save_links(links) when is_nil(links), do: {:error, "links is nill"}
 
@@ -7,7 +6,7 @@ defmodule UrlHistory.Service.HistorySaveHandler do
     time = DateTime.utc_now() |> DateTime.to_unix()
 
     links
-    |> Enum.map(fn x -> x <> "///#{random_string(5)}" end)
+    |> Enum.map(fn x -> x <> "///#{time}" end)
     |> Enum.flat_map(fn link -> [time, link] end)
     |> UrlHistory.Repository.Redis.add()
   end
