@@ -1,3 +1,3 @@
 use Mix.Config
 
-config :url_history_server, UrlHistory.Application, [redis_host: "localhost", redis_port: 6379]
+config :url_history_server, :redis_config, host: "localhost", port: 6379

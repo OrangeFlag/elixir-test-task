@@ -55,7 +55,9 @@ defmodule UrlHistory.Service.HistorySaveHandlerTest do
     )
 
     assert is_list_equals(History.get_domains(1, 2) |> elem(1), ["ya.ru"])
+
     assert is_list_equals(History.get_domains(3, 4) |> elem(1), ["funbox.ru", "stackoverflow.com"])
+
     assert is_list_equals(History.get_domains(2, 3) |> elem(1), ["funbox.ru", "ya.ru"])
 
     RedisMock.clear()
