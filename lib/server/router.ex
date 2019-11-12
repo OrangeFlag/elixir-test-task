@@ -20,7 +20,7 @@ defmodule UrlHistory.Server.Router do
 
     with %{"from" => from, "to" => to} <- conn.query_params,
          {:ok, domains} <- UrlHistory.Service.HistorySaveHandler.get_domains(from, to) do
-      send_resp(conn, 200, response("ok", domains))
+      send_resp(conn, 200, response("ok", %{domains: domains}))
     else
       _ -> send_resp(conn, 500, response("error"))
     end
@@ -39,7 +39,7 @@ defmodule UrlHistory.Server.Router do
     %{status: status} |> Poison.encode!()
   end
 
-  defp response(status, domains) do
-    %{status: status, domains: domains} |> Poison.encode!()
+  defp response(status, result) do
+    Map.put(result, :status, status) |> Poison.encode!()
   end
 end

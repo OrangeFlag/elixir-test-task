@@ -8,6 +8,7 @@ defmodule UrlHistory.Application do
   defp children do
     [
       UrlHistory.Server.Endpoints,
+      UrlHistory.Repository.Redis,
       {Redix, host: "localhost", name: :redix}
     ]
   end
