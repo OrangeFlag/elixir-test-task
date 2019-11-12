@@ -15,7 +15,7 @@ defmodule UrlHistory.Server.Router do
            ) do
       send_resp(conn, 201, response("ok"))
     else
-      _ -> send_resp(conn, 500, response("error"))
+      {:error, error} -> send_resp(conn, 500, response(error))
     end
   end
 
@@ -26,7 +26,7 @@ defmodule UrlHistory.Server.Router do
          {:ok, domains} <- UrlHistory.Service.HistorySaveHandler.get_domains(from, to) do
       send_resp(conn, 200, response("ok", %{domains: domains}))
     else
-      _ -> send_resp(conn, 500, response("error"))
+      {:error, error} -> send_resp(conn, 500, response(error))
     end
   end
 

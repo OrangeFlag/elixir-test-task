@@ -13,7 +13,7 @@ defmodule UrlHistory.Application do
     [
       {Plug.Cowboy,
        scheme: :http, plug: UrlHistory.Server.Endpoints, options: [port: cowboy_port()]},
-      {Redix, host: redis_host(), name: :redix}
+      {Redix, {redis_host(), [name: :redix]}}
     ]
   end
 
