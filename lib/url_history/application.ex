@@ -4,7 +4,7 @@ defmodule UrlHistory.Application do
 
   def start(_type, _args) do
     Logger.info("Server run in port: #{cowboy_port()}")
-    Logger.info("Redix connect to #{redis_config()[:host]}:#{redis_config()[:port]}")
+    Logger.info("Redix connect to #{redis_host()}")
 
     Supervisor.start_link(children(), opts())
   end
@@ -13,7 +13,7 @@ defmodule UrlHistory.Application do
     [
       {Plug.Cowboy,
        scheme: :http, plug: UrlHistory.Server.Endpoints, options: [port: cowboy_port()]},
-      {Redix, host: "#{redis_config()[:host]}:#{redis_config()[:port]}", name: :redix}
+      {Redix, host: redis_host(), name: :redix}
     ]
   end
 
@@ -25,7 +25,7 @@ defmodule UrlHistory.Application do
     Application.get_env(:url_history_server, :cowboy_port)
   end
 
-  defp redis_config do
-    Application.get_env(:url_history_server, :redis_config)
+  defp redis_host do
+    Application.get_env(:url_history_server, :redis_host)
   end
 end
