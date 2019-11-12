@@ -1,9 +1,8 @@
 defmodule UrlHistory.Repository.Redis do
-  def add(links) when is_nil(links), do: {:error, "links is nill"}
+  def add(scored_set) when is_nil(scored_set), do: {:error, "links is nill"}
 
-  def add(links) do
-    time = DateTime.utc_now() |> DateTime.to_unix()
-    Redix.command(:redix, ["ZADD", "links" | Enum.flat_map(links, fn link -> [time, link] end)])
+  def add(scored_set) do
+    Redix.command(:redix, ["ZADD", "links" | scored_set])
   end
 
   def get(from, to) when is_nil(from) or is_nil(to),

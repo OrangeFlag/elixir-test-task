@@ -18,8 +18,7 @@ defmodule UrlHistory.Server.Router do
   get "/visited_domains" do
     conn = conn |> json_conn
 
-    with from <- conn.params["from"],
-         to <- conn.params["to"],
+    with %{"from" => from, "to" => to} <- conn.query_params,
          {:ok, domains} <- UrlHistory.Service.HistorySaveHandler.get_domains(from, to) do
       send_resp(conn, 200, response("ok", domains))
     else

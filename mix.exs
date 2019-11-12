@@ -29,7 +29,8 @@ defmodule ElixirExample.MixProject do
       {:plug_cowboy, "~> 2.1"},
       {:redix, "~> 0.10.2"},
       {:earmark, "~> 1.4", only: :dev},
-      {:ex_doc, "~> 0.21", only: :dev}
+      {:ex_doc, "~> 0.21", only: :dev},
+      {:dialyxir, "~> 0.4", only: :dev}
     ]
   end
 
