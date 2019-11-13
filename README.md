@@ -1,21 +1,21 @@
-# ElixirExample
+# Elixir test task
 
-**TODO: Add description**
+## Deployed
+Сервис раскатан на heroku и доступен по адресу:   
+[elixir-test-task.herokuapp.com](https://elixir-test-task.herokuapp.com/)
+
 
 ## Installation
-
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `elixir_example` to your list of dependencies in `mix.exs`:
-
-```elixir
-def deps do
-  [
-    {:elixir_example, "~> 0.1.0"}
-  ]
-end
+Получение зависимостей:
+```bash
+mix deps.get
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/elixir_example](https://hexdocs.pm/elixir_example).
+Запуск:
+```bash
+mix run --no-halt
+```
+В Dev среде сервис запускается на порту 8080 и требует запущенной БД Redis на порту 6379
 
+## Конфигурация запуска
+Конфигурации находятся в [config](config)
