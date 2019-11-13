@@ -2,7 +2,7 @@
 
 ## Deployed
 Сервис раскатан на heroku и доступен по адресу:   
-[elixir-test-task.herokuapp.com](https://elixir-test-task.herokuapp.com/)
+[elixir-test-task.herokuapp.com](https://elixir-test-task.herokuapp.com/visited_domains?from=1&to=2234567876543)
 
 
 ## Installation
